@@ -19,24 +19,6 @@ handlers:
 - url: .*
   script: quattrogame.app
 
-# - url: .*
-# upload: templates/index.html
-# static_files: templates/index.html
-  
-# - url: /stylesheets
-#   static_dir: stylesheets
-
-# - url: /
-#   static_dir: jquery-2.0.3.min.js
-  
-# - url: /favicon.ico
-#   static_files: favicon.ico
-#   upload: favicon.ico
-  
-# - url: /(.*\.(gif|png|jpg))
-#   static_files: \1
-#   upload: .*\.(gif|png|jpg)
-
 libraries:
 - name: webapp2
   version: "2.5.2"
