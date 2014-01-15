@@ -13,9 +13,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class MainPage(webapp2.RequestHandler):
     def get(self):
         template = JINJA_ENVIRONMENT.get_template('index.html')
-        # jinja = jinja2.get_jinja2(app=self.app)
         self.response.out.write(template.render())
-        # rv = jinja.render_template("index.html")
-        # self.response.write(rv)
 
 app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
