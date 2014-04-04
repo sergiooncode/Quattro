@@ -29,26 +29,30 @@ $(document).ready ( function () {
   	gameStarted = true;
   	isThereWinner = false;
 	}
-				
+
+  function endGameMsg() {
+    var answer = confirm("OK with the result?"); 
+    if (answer) {
+      initBoard();
+      drawBoard (matrix);
+      $('#ntf').html("");
+    } else {
+      initBoard();
+      drawBoard (matrix);
+      $('#ntf').html("");
+    }    
+  }
+
 	function drawBoard (table) {
   	for (var row = 0; row < table.length; row++) {
   		for (var col = 0; col < table[row].length; col++) {
   			if (matrix[row][col] == 'R') {
   				var idtn = "#col-" + col.toString()+"-row-" + row.toString();
   				$(idtn).css( "background-color", "red" );
-          // $(idtn).fadeTo('slow', 0.5, function() {
-            // $(this).css( "background-color", "red" );
-          // });
-          // $('#elem').fadeTo('slow', 0.3, function(){
-          //   $(this).css('background-image', 'url(' + $img + ')');
-          // }).fadeTo('slow', 1);
   			}
   			if (matrix[row][col] == 'Y') {
   				var idtn = "#col-" + col.toString()+"-row-" + row.toString();
   				$(idtn).css( "background-color", "yellow" );
-          // $(idtn).fadeTo('slow', 0.5, function() {
-          //   $(this).css( "background-color", "yellow" );
-          // });
   			}
   			if (matrix[row][col] == 'W') {
   				var idtn = "#col-" + col.toString()+"-row-" + row.toString();
@@ -224,12 +228,13 @@ $(document).ready ( function () {
   			chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -260,12 +265,13 @@ $(document).ready ( function () {
   			chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -297,12 +303,13 @@ $(document).ready ( function () {
   			chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -334,12 +341,13 @@ $(document).ready ( function () {
   			chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -371,12 +379,13 @@ $(document).ready ( function () {
   			chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -408,12 +417,13 @@ $(document).ready ( function () {
   			chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -445,12 +455,13 @@ $(document).ready ( function () {
   		chngPlayer(turnPlayer);
   		if (isGameOver(matrix)) {
   			$('#ntf').html("Game Over!").css("color", "red"); 
-  			var answer = confirm("OK with the result?"); 
-  			if (answer) {
-  				initBoard();
-  				drawBoard (matrix);
-  				$('#ntf').html("");
-  			} else {initBoard();drawBoard (matrix);$('#ntf').html("");}
+        endGameMsg();
+  			// var answer = confirm("OK with the result?"); 
+  			// if (answer) {
+  			// 	initBoard();
+  			// 	drawBoard (matrix);
+  			// 	$('#ntf').html("");
+  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
   		}
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
@@ -465,19 +476,4 @@ $(document).ready ( function () {
   		}
   	}
   });
-        // Caching some of the selectors for better performance
-				// Column 1
-//				var col0Row5 = $('#col-0-row-5'),col0Row4 = $('#col-0-row-4'),col0Row3 = $('#col-0-row-3'),col0Row2 = $('#col-0-row-2'),col0Row1 = $('#col-0-row-1'),col0Row0 = $('#col-0-row-0');
-//				// Column 2
-//				var col1Row5 = $('#col-1-row-5'),col1Row4 = $('#col-1-row-4'),col1Row3 = $('#col-1-row-3'),col1Row2 = $('#col-1-row-2'),col1Row1 = $('#col-1-row-1'),col1Row0 = $('#col-1-row-0');
-//				// Column 3
-//				var col2Row5 = $('#col-2-row-5'),col2Row4 = $('#col-2-row-4'),col2Row3 = $('#col-2-row-3'),col2Row2 = $('#col-2-row-2'),col2Row1 = $('#col-2-row-1'),col2Row0 = $('#col-2-row-0');
-//				// Column 4
-//				var col3Row5 = $('#col-3-row-5'),col3Row4 = $('#col-3-row-4'),col3Row3 = $('#col-3-row-3'),col3Row2 = $('#col-3-row-2'),col3Row1 = $('#col-3-row-1'),col3Row0 = $('#col-3-row-0');
-//				// Column 5
-//				var col4Row5 = $('#col-4-row-5'),col4Row4 = $('#col-4-row-4'),col4Row3 = $('#col-4-row-3'),col4Row2 = $('#col-4-row-2'),col4Row1 = $('#col-4-row-1'),col4Row0 = $('#col-4-row-0');
-//				// Column 6
-//				var col5Row5 = $('#col-5-row-5'),col5Row4 = $('#col-5-row-4'),col5Row3 = $('#col-5-row-3'),col5Row2 = $('#col-5-row-2'),col5Row1 = $('#col-5-row-1'),col5Row0 = $('#col-5-row-0');
-//				// Column 7
-//				var col6Row5 = $('#col-6-row-5'),col6Row4 = $('#col-6-row-4'),col6Row3 = $('#col-6-row-3'),col6Row2 = $('#col-6-row-2'),col6Row1 = $('#col-6-row-1'),col6Row0 = $('#col-6-row-0');
 });
