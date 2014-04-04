@@ -283,8 +283,7 @@ $(document).ready ( function () {
   		    if (isGameOver(matrix)) {
             gameOverNtf(); 
             endGameMsg(turnPlayer);
-  		    }
-          chngPlayer(turnPlayer);
+  		    } else {chngPlayer(turnPlayer);}
         }
   		  if (turnPlayer == "Y"){
   			   var pc = randomFromInterval(0,6);
@@ -319,8 +318,7 @@ $(document).ready ( function () {
   		    if (isGameOver(matrix)) {
             gameOverNtf(); 
             endGameMsg(turnPlayer);
-  		    }
-          chngPlayer(turnPlayer);
+  		    } else {chngPlayer(turnPlayer);}
         }
   		  if (turnPlayer == "Y"){
   			 var pc = randomFromInterval(0,6);
@@ -355,8 +353,7 @@ $(document).ready ( function () {
   		    if (isGameOver(matrix)) {
             gameOverNtf();
             endGameMsg(turnPlayer);
-  		    }
-          chngPlayer(turnPlayer);
+  		    } else {chngPlayer(turnPlayer);}
         }
   		  if (turnPlayer == "Y"){
   			 var pc = randomFromInterval(0,6);
@@ -391,8 +388,7 @@ $(document).ready ( function () {
   		    if (isGameOver(matrix)) {
             gameOverNtf();
             endGameMsg(turnPlayer);
-  		    }
-          chngPlayer(turnPlayer);
+  		    } else {chngPlayer(turnPlayer);}
         }
   		  if (turnPlayer == "Y"){
   			 var pc = randomFromInterval(0,6);
@@ -427,8 +423,7 @@ $(document).ready ( function () {
   		    if (isGameOver(matrix)) {
             gameOverNtf();
             endGameMsg(turnPlayer);
-  		    }
-          chngPlayer(turnPlayer);
+  		    } else {chngPlayer(turnPlayer);}
         }
   		  if (turnPlayer == "Y"){
   			 var pc = randomFromInterval(0,6);
@@ -463,8 +458,7 @@ $(document).ready ( function () {
   		    if (isGameOver(matrix)) {
             gameOverNtf();
             endGameMsg(turnPlayer);
-  		    }
-          chngPlayer(turnPlayer);
+  		    } else {chngPlayer(turnPlayer);}
         }
   		  if (turnPlayer == "Y"){
   			 var pc = randomFromInterval(0,6);
@@ -499,8 +493,7 @@ $(document).ready ( function () {
   		  if (isGameOver(matrix)) {
   			 gameOverNtf();
           endGameMsg(turnPlayer);
-  		  }
-        chngPlayer(turnPlayer);
+  		  } else {chngPlayer(turnPlayer);}
       }
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
