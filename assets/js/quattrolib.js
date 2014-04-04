@@ -30,17 +30,77 @@ $(document).ready ( function () {
   	isThereWinner = false;
 	}
 
-  function endGameMsg() {
-    var answer = confirm("OK with the result?"); 
-    if (answer) {
-      initBoard();
-      drawBoard (matrix);
-      $('#ntf').html("");
+  function pressResetNtf() {$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");}
+
+  function gameOverNtf() {$('#ntf').html("Game Over!").css("color", "red");}
+
+  function columnCompleteNtf() {$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");}
+
+  function machineStartsNtf() {$('#ntf').html("The machine starts!").css("color", "red");}
+
+  function humanStartsNtf() {$('#ntf').html("You start!").css("color", "red");}
+
+  function randomFromInterval(from,to){return Math.floor(Math.random()*(to-from+1)+from);}
+
+  function cleanNotifications() {$('#ntf').html("");}
+
+  function endGameMsg(tp) {
+    var winner = "";
+    if (tp == "R") {
+      winner = "You, human,";
     } else {
+      winner = "The Machine";
+    }
+    var answer = confirm(winner + " won. Press any button to play again."); 
+    if (answer) {
+      cleanNotifications();
       initBoard();
       drawBoard (matrix);
-      $('#ntf').html("");
+      if (randomFromInterval(1,2) == 1) {
+        turnPlayer = "R"; 
+        humanStartsNtf();
+      } else {
+        turnPlayer = "Y"; 
+        machineStartsNtf(); 
+        var pc = randomFromInterval(0,6);
+        var rd = getDropPosition(matrix, pc);
+        if (rd == -1) {
+          columnCompleteNtf();
+        } else {
+          matrix[rd][pc] = turnPlayer;
+        }
+        drawBoard(matrix);
+        chngPlayer(turnPlayer);
+      }
+    } else {
+      cleanNotifications();
+      initBoard();
+      drawBoard (matrix);
+      if (randomFromInterval(1,2) == 1) {
+        turnPlayer = "R"; 
+        humanStartsNtf();
+      } else {
+        turnPlayer = "Y"; 
+        machineStartsNtf(); 
+        var pc = randomFromInterval(0,6);
+        var rd = getDropPosition(matrix, pc);
+        if (rd == -1) {
+          columnCompleteNtf();
+        } else {
+          matrix[rd][pc] = turnPlayer;
+        }
+        drawBoard(matrix);
+        chngPlayer(turnPlayer);
+      }
     }    
+  }
+
+  function chngPlayer(tp){
+    if (tp == 'R') {
+      turnPlayer = 'Y';
+    } else {
+      turnPlayer = 'R';
+    }
   }
 
 	function drawBoard (table) {
@@ -71,16 +131,10 @@ $(document).ready ( function () {
   		if (matrix[rindex][columnPosition] == 'W') {
       	return rindex;
   		}
-  	rindex--;
+      rindex--;
   	}
   	return -1;
 	}
-				
-	function randomFromInterval(from,to){
-  	return Math.floor(Math.random()*(to-from+1)+from);
-	}
-				
-	function chngPlayer(tp){if (tp == 'R') {turnPlayer = 'Y';} else {turnPlayer = 'R';}}
 				
 	function getRowWin(matrix){
   	// set 4 [i,j] values to a functionault cell position say -1 in a list.
@@ -192,19 +246,19 @@ $(document).ready ( function () {
 	// Listens to all the buttons in the pagebody
 	rstBttn.click(function () {
 		//Clear previous notifications
-		$('#ntf').html("");
+		cleanNotifications();
 		initBoard();
 		drawBoard(matrix);
 		if (randomFromInterval(1,2) == 1) {
 			turnPlayer = 'R'; 
-			$('#ntf').html("You start!").css("color", "red"); 
+			humanStartsNtf();
 		} else {
 			turnPlayer = 'Y'; 
-			$('#ntf').html("The machine starts!").css("color", "red"); 
+			machineStartsNtf();
 			var pc = randomFromInterval(0,6);
 			var rd = getDropPosition(matrix, pc);
   		if (rd == -1) {
-  			$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  			columnCompleteNtf();
   		} else {
   			matrix[rd][pc] = turnPlayer;
   		}
@@ -215,264 +269,252 @@ $(document).ready ( function () {
 				
   buttonCol1.click(function () {
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  			$('#ntf').html("");
-  			var rd = getDropPosition(matrix, 0);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  				matrix[rd][0] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
-  		if (turnPlayer == "Y"){
-  			var pc = randomFromInterval(0,6);
-				var rd = getDropPosition(matrix, pc);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  				matrix[rd][pc] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		}
+  			cleanNotifications();
+  			if (turnPlayer == "R") {
+          var rd = getDropPosition(matrix, 0);
+  			 if (rd == -1) {
+  				  columnCompleteNtf();
+  			 } else {
+  				  matrix[rd][0] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+  		    if (isGameOver(matrix)) {
+            gameOverNtf(); 
+            endGameMsg(turnPlayer);
+  		    }
+          chngPlayer(turnPlayer);
+        }
+  		  if (turnPlayer == "Y"){
+  			   var pc = randomFromInterval(0,6);
+				  var rd = getDropPosition(matrix, pc);
+  			 if (rd == -1) {
+  			   columnCompleteNtf();
+  			 } else {
+  				  matrix[rd][pc] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+          if (isGameOver(matrix)) {
+            gameOverNtf(); 
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
+  		  }
   	}
   });
     		
   buttonCol2.click(function () {
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  			$('#ntf').html("");
-  			var rd = getDropPosition(matrix, 1);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  				matrix[rd][1] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
-  		if (turnPlayer == "Y"){
-  			var pc = randomFromInterval(0,6);
-				var rd = getDropPosition(matrix, pc);
+  			cleanNotifications();
+        if (turnPlayer == "R") {
+  			 var rd = getDropPosition(matrix, 1);
+  			 if (rd == -1) {
+  				  columnCompleteNtf();
+  			 } else {
+  				  matrix[rd][1] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+  		    if (isGameOver(matrix)) {
+            gameOverNtf(); 
+            endGameMsg(turnPlayer);
+  		    }
+          chngPlayer(turnPlayer);
+        }
+  		  if (turnPlayer == "Y"){
+  			 var pc = randomFromInterval(0,6);
+				  var rd = getDropPosition(matrix, pc);
   				if (rd == -1) {
-  					$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  					columnCompleteNtf();
   				} else {
   					matrix[rd][pc] = turnPlayer;
   				}
   				drawBoard(matrix);
-  				chngPlayer(turnPlayer);
+          if (isGameOver(matrix)) {
+            gameOverNtf(); 
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
   		}
   	}
   });
   
   buttonCol3.click(function () {
-  	//col3Row6.css( "background-color", "red" );	
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  			$('#ntf').html("");
-  			var rd = getDropPosition(matrix, 2);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  				matrix[rd][2] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
-  		if (turnPlayer == "Y"){
-  			var pc = randomFromInterval(0,6);
-				var rd = getDropPosition(matrix, pc);
+  			cleanNotifications();
+        if (turnPlayer == "R") {
+  			 var rd = getDropPosition(matrix, 2);
+  			 if (rd == -1) {
+  				  columnCompleteNtf();
+  			 } else {
+  				  matrix[rd][2] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+  		    if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+  		    }
+          chngPlayer(turnPlayer);
+        }
+  		  if (turnPlayer == "Y"){
+  			 var pc = randomFromInterval(0,6);
+				  var rd = getDropPosition(matrix, pc);
   				if (rd == -1) {
-  					$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  					columnCompleteNtf();
   				} else {
   					matrix[rd][pc] = turnPlayer;
   				}
   				drawBoard(matrix);
-  				chngPlayer(turnPlayer);
+          if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
   		}
   	}
   });
   
   buttonCol4.click(function () {
-  	//col4Row6.css( "background-color", "yellow" );	
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  			$('#ntf').html("");
-  			var rd = getDropPosition(matrix, 3);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  			matrix[rd][3] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
-  		if (turnPlayer == "Y"){
-  			var pc = randomFromInterval(0,6);
-				var rd = getDropPosition(matrix, pc);
+  			cleanNotifications();
+  			if (turnPlayer == "R") {
+          var rd = getDropPosition(matrix, 3);
+  			 if (rd == -1) {
+  				  columnCompleteNtf();
+  			 } else {
+  			 matrix[rd][3] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+  		    if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+  		    }
+          chngPlayer(turnPlayer);
+        }
+  		  if (turnPlayer == "Y"){
+  			 var pc = randomFromInterval(0,6);
+				  var rd = getDropPosition(matrix, pc);
   				if (rd == -1) {
-  					$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  					columnCompleteNtf();
   				} else {
   					matrix[rd][pc] = turnPlayer;
   				}
   				drawBoard(matrix);
-  				chngPlayer(turnPlayer);
+          if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
   		}
   	}
   });
   
   buttonCol5.click(function () {
-  	//col5Row6.css( "background-color", "red" );	
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  			$('#ntf').html("");
-  			var rd = getDropPosition(matrix, 4);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  				matrix[rd][4] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
-  		if (turnPlayer == "Y"){
-  			var pc = randomFromInterval(0,6);
-				var rd = getDropPosition(matrix, pc);
+  			cleanNotifications();
+  			if (turnPlayer == "R") {
+          var rd = getDropPosition(matrix, 4);
+  			 if (rd == -1) {
+  				  columnCompleteNtf();
+  			 } else {
+  				  matrix[rd][4] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+  		    if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+  		    }
+          chngPlayer(turnPlayer);
+        }
+  		  if (turnPlayer == "Y"){
+  			 var pc = randomFromInterval(0,6);
+				  var rd = getDropPosition(matrix, pc);
   				if (rd == -1) {
-  					$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  					columnCompleteNtf();
   				} else {
   					matrix[rd][pc] = turnPlayer;
   				}
   				drawBoard(matrix);
-  				chngPlayer(turnPlayer);
+          if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
   		}
   	}
   });
   
   buttonCol6.click(function () {
-  	//col6Row6.css( "background-color", "red" );	
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  			$('#ntf').html("");
-  			var rd = getDropPosition(matrix, 5);
-  			if (rd == -1) {
-  				$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  			} else {
-  				matrix[rd][5] = turnPlayer;
-  			}
-  			drawBoard(matrix);
-  			chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
-  		if (turnPlayer == "Y"){
-  			var pc = randomFromInterval(0,6);
-				var rd = getDropPosition(matrix, pc);
+  			cleanNotifications();
+  			if (turnPlayer == "R") {
+          var rd = getDropPosition(matrix, 5);
+  			 if (rd == -1) {
+  				  columnCompleteNtf();
+  			 } else {
+  				  matrix[rd][5] = turnPlayer;
+  			 }
+  			 drawBoard(matrix);
+  		    if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+  		    }
+          chngPlayer(turnPlayer);
+        }
+  		  if (turnPlayer == "Y"){
+  			 var pc = randomFromInterval(0,6);
+				  var rd = getDropPosition(matrix, pc);
   				if (rd == -1) {
-  					$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  					columnCompleteNtf();
   				} else {
   					matrix[rd][pc] = turnPlayer;
   				}
   				drawBoard(matrix);
-  				chngPlayer(turnPlayer);
+          if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
   		}
   	}
   });
   
   buttonCol7.click(function () {
-  	//col7Row6.css( "background-color", "red" );	
   	if (gameStarted == false) {
-  		$('#ntf').html("Press RESET/PLAY</br>button to start!").css("color", "red");
+  		pressResetNtf();
   	} else {
-  		$('#ntf').html("");
-  		var rd = getDropPosition(matrix, 6);
-  		if (rd == -1) {
-  			$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
-  		} else {
-  			matrix[rd][6] = turnPlayer;
-  		}
-  		drawBoard(matrix);
-  		chngPlayer(turnPlayer);
-  		if (isGameOver(matrix)) {
-  			$('#ntf').html("Game Over!").css("color", "red"); 
-        endGameMsg();
-  			// var answer = confirm("OK with the result?"); 
-  			// if (answer) {
-  			// 	initBoard();
-  			// 	drawBoard (matrix);
-  			// 	$('#ntf').html("");
-  			// } else {initBoard();drawBoard (matrix);$('#ntf').html("");}
-  		}
+  		cleanNotifications();
+      if (turnPlayer == "R") {
+  		  var rd = getDropPosition(matrix, 6);
+  		  if (rd == -1) {
+  			 columnCompleteNtf();
+  		  } else {
+  			 matrix[rd][6] = turnPlayer;
+  		  }
+  		  drawBoard(matrix);
+  		  if (isGameOver(matrix)) {
+  			 gameOverNtf();
+          endGameMsg(turnPlayer);
+  		  }
+        chngPlayer(turnPlayer);
+      }
   		if (turnPlayer == "Y"){
   			var pc = randomFromInterval(0,6);
 				var rd = getDropPosition(matrix, pc);
   				if (rd == -1) {
-  					$('#ntf').html("Column complete!</br>Pick a different one").css("color", "red");
+  					columnCompleteNtf();
   				} else {
   					matrix[rd][pc] = turnPlayer;
   				}
   				drawBoard(matrix);
-  				chngPlayer(turnPlayer);
+          if (isGameOver(matrix)) {
+            gameOverNtf();
+            endGameMsg(turnPlayer);
+          } else {chngPlayer(turnPlayer);}
   		}
   	}
   });
